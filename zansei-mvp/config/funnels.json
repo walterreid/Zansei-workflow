@@ -1,0 +1,54 @@
+{
+  "bubble_questions": [
+    {
+      "id": "business_type",
+      "question": "What best describes your business?",
+      "type": "select",
+      "options": [
+        { "value": "local_storefront", "label": "🏪 Local storefront/physical location", "industry_bucket": "retail_hospitality" },
+        { "value": "professional_services", "label": "💼 Professional services", "industry_bucket": "local_services" },
+        { "value": "ecommerce", "label": "🛒 E-commerce/online store", "industry_bucket": "ecommerce_digital" },
+        { "value": "restaurant", "label": "🍕 Restaurant/food service", "industry_bucket": "retail_hospitality" },
+        { "value": "home_services", "label": "🏠 Home services", "industry_bucket": "local_services" },
+        { "value": "saas", "label": "💻 SaaS/digital product", "industry_bucket": "ecommerce_digital" },
+        { "value": "other", "label": "✨ Other", "industry_bucket": "other" }
+      ],
+      "required": true
+    },
+    {
+      "id": "geography",
+      "question": "Where do you serve customers?",
+      "type": "select",
+      "options": [
+        { "value": "hyperlocal", "label": "📍 Specific neighborhood/city" },
+        { "value": "regional", "label": "🗺️ Regional (state or multi-city)" },
+        { "value": "national", "label": "🇺🇸 Nationwide (US)" },
+        { "value": "international", "label": "🌍 International" },
+        { "value": "online_only", "label": "💻 Online-only" }
+      ],
+      "required": true
+    },
+    {
+      "id": "marketing_maturity",
+      "question": "What's your current marketing situation?",
+      "type": "select",
+      "options": [
+        { "value": "new", "label": "🆕 Haven't really done marketing yet" },
+        { "value": "basics", "label": "🔍 Doing some basics" },
+        { "value": "ads_running", "label": "📊 Running ads but want to improve" },
+        { "value": "experienced", "label": "🎯 Experienced, looking to optimize" }
+      ],
+      "required": true
+    }
+  ],
+  "funnels": [
+    {
+      "id": "brand_awareness",
+      "label": "🔍 Nobody Knows About Us",
+      "description": "People don't know my business exists",
+      "assistant_id": "asst_awareness_v1",
+      "report_generator_id": "asst_report_awareness_v1"
+    }
+  ]
+}
+

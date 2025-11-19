@@ -1,0 +1,137 @@
+{
+  "assistant_id": "asst_awareness_v1",
+  "name": "Brand Awareness Assistant",
+  "funnel_id": "brand_awareness",
+  "system_prompt_template": "You are a Brand Awareness specialist helping a {business_size} {business_type} business in {geography} address their brand awareness challenge.\n\nBusiness Context:\n- Business Type: {business_type}\n- Geography: {geography}\n- Marketing Maturity: {marketing_maturity}\n- Industry Bucket: {industry_bucket}\n\nYou should speak to them like someone who understands the unique challenges of {business_type} businesses at the {marketing_maturity} level.\n\nYour goal: Ask 6-8 conversational questions to gather the information needed for our Report Generator to create an actionable Brand Awareness strategy.\n\nYou should ask questions one at a time, respond naturally to their answers, and build on what they tell you. Be conversational and empathetic. Acknowledge their concerns and show you understand their situation.\n\nRequired information to collect:\n1. Monthly marketing budget\n2. Target customer profile (who they want to reach)\n3. Current marketing activities (what they're doing now)\n4. Main challenge preventing brand awareness\n5. Geographic focus (specific areas they want to reach)\n6. Timeline/urgency for results\n7. What success looks like to them\n8. Any existing brand assets (website, social media, etc.)\n\nAfter each user response, acknowledge what they said naturally, then ask your next question. Once you have answers to all required questions, let them know you have everything needed to create their brand awareness strategy.\n\nBe warm, understanding, and practical. Remember: they feel invisible, so be encouraging.",
+  "questions": [
+    {
+      "id": "budget",
+      "question_template": "What's your monthly marketing budget for building brand awareness?",
+      "type": "select",
+      "options": [
+        "$500-1,000",
+        "$1,000-3,000",
+        "$3,000-5,000",
+        "$5,000-10,000",
+        "$10,000+",
+        "Not sure yet"
+      ],
+      "required": true,
+      "unlocks_components": ["budget_roi_tracking"]
+    },
+    {
+      "id": "target_customer",
+      "question_template": "Who are you trying to reach? Who's your ideal customer?",
+      "type": "textarea",
+      "placeholder": "e.g., Colombian families in Queens planning special events, ages 30-60",
+      "required": true,
+      "unlocks_components": ["content_strategy", "channel_selection"]
+    },
+    {
+      "id": "current_marketing",
+      "question_template": "What are you currently doing to get the word out about your business?",
+      "type": "textarea",
+      "placeholder": "e.g., Facebook page, word of mouth, nothing really",
+      "required": true,
+      "unlocks_components": ["channel_selection"]
+    },
+    {
+      "id": "main_challenge",
+      "question_template": "What's the biggest challenge preventing people from knowing about your business?",
+      "type": "select",
+      "options": [
+        "They don't know we exist",
+        "We're in a crowded market",
+        "Limited budget for advertising",
+        "Not sure how to reach our audience",
+        "Competitors have more visibility",
+        "We're in a hidden location",
+        "Not sure"
+      ],
+      "required": true,
+      "unlocks_components": ["content_strategy", "local_visibility"]
+    },
+    {
+      "id": "geographic_focus",
+      "question_template": "Where specifically do you want people to know about you?",
+      "type": "textarea",
+      "placeholder": "e.g., Elmhurst, Queens and surrounding neighborhoods",
+      "required": true,
+      "unlocks_components": ["local_visibility"]
+    },
+    {
+      "id": "timeline",
+      "question_template": "When do you need to start seeing results?",
+      "type": "select",
+      "options": [
+        "Urgently (this week/month)",
+        "Soon (2-3 months)",
+        "Building for the future (6+ months)",
+        "Just exploring"
+      ],
+      "required": true,
+      "unlocks_components": ["quick_win_tactics"]
+    },
+    {
+      "id": "success_looks_like",
+      "question_template": "What would success look like for you? What's your goal?",
+      "type": "textarea",
+      "placeholder": "e.g., More foot traffic, more people calling, more social media followers",
+      "required": true,
+      "unlocks_components": ["performance_metrics"]
+    },
+    {
+      "id": "existing_assets",
+      "question_template": "Do you have a website, social media accounts, or other online presence?",
+      "type": "select",
+      "options": [
+        "Yes, website and social media",
+        "Yes, but needs work",
+        "Just social media",
+        "Just a website",
+        "Nothing yet"
+      ],
+      "required": true,
+      "unlocks_components": ["content_strategy", "local_visibility"]
+    }
+  ],
+  "report_components": [
+    {
+      "id": "content_strategy",
+      "name": "📝 Content Strategy",
+      "description": "What to post, when to post, and how to tell your story",
+      "unlock_conditions": ["target_customer", "main_challenge", "existing_assets"]
+    },
+    {
+      "id": "channel_selection",
+      "name": "📱 Channel Selection",
+      "description": "Best platforms and channels to reach your audience",
+      "unlock_conditions": ["target_customer", "current_marketing"]
+    },
+    {
+      "id": "local_visibility",
+      "name": "📍 Local Visibility",
+      "description": "Google Business Profile, local directories, and neighborhood presence",
+      "unlock_conditions": ["geographic_focus", "main_challenge", "existing_assets"]
+    },
+    {
+      "id": "budget_roi_tracking",
+      "name": "💰 Budget & ROI Tracking",
+      "description": "How to allocate your budget and measure what's working",
+      "unlock_conditions": ["budget"]
+    },
+    {
+      "id": "quick_win_tactics",
+      "name": "⚡ Quick-Win Tactics",
+      "description": "Immediate actions to start building awareness",
+      "unlock_conditions": ["timeline"]
+    },
+    {
+      "id": "performance_metrics",
+      "name": "📊 Performance Metrics",
+      "description": "How to track brand awareness and measure success",
+      "unlock_conditions": ["success_looks_like"]
+    }
+  ]
+}
+
