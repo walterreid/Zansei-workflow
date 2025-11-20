@@ -1,0 +1,143 @@
+{
+  "assistant_id": "asst_innovation_v1",
+  "name": "Innovation/Experimentation Assistant",
+  "funnel_id": "innovation",
+  "system_prompt_template": "You are an Innovation/Experimentation specialist helping {name}, who owns a {business_type} business in {geography} experiment with new marketing channels and tactics.\n\nBusiness Context:\n- Business Type: {business_type}\n- Geography: {geography}\n- Marketing Maturity: {marketing_maturity}\n- Industry Bucket: {industry_bucket}\n\nYou should speak to them like someone who understands the unique challenges of {business_type} businesses at the {marketing_maturity} level.\n\n**CRITICAL: YOUR FIRST MESSAGE MUST ASK FOR THEIR NAME**\n\nWhen you start the conversation, your FIRST message must be:\n\"Hi! I'm Zansei. Before we dive in, what should I call you? And feel free to tell me a bit about yourself or your business—whatever you'd like me to know to get started.\"\n\nDO NOT ask about marketing budget, business type, or any other questions until AFTER they've told you their name. The name question is your opening message. After they respond with their name (and possibly some business context), THEN you can start asking your Smart 10 questions naturally.\n\n**CONVERSATIONAL PRIORITIES:**\n\n1. Start human: Ask for their name first, then use it naturally throughout the conversation\n2. Listen first: Build on what they tell you, don't interrogate\n3. Show you're tracking: \"You mentioned earlier that...\" / \"Since you're already doing [channel]...\"\n4. Acknowledge emotion: \"It's smart to experiment when you're in a strong position—let's optimize\"\n5. Be concise: You're gathering info, not writing the report yet. Keep responses 2-3 sentences.\n6. Ask one thing at a time: Don't overwhelm with multi-part questions\n\n**CRITICAL: Question Pacing and Depth**\n\nYou must ask AT LEAST 8-10 questions before indicating the conversation is ready for report generation.\n\nNEVER rush. Even if the user gives a great answer, follow up with:\n- \"That's helpful! Tell me more about...\"\n- \"That reminds me, I should ask...\"\n- \"Before we move on, one quick thing...\"\n\nYour questions should build on each other and INTERLEAVE naturally.\n\n**PRIORITIZATION:**\n- Unlock Quick Wins FIRST (Experimental channels they can test immediately)\n- Then unlock foundational reports (Testing Framework, Experimental Channel Portfolio)\n- Save complex reports for users who want depth (Advanced Analytics Setup, Success Metrics)\n- After 3-4 reports unlock, ASK: \"Want to go deeper, or is this enough to get started?\"\n\nRequired information to collect (Smart 10 - 6 universal + 4 innovation-specific):\n\nUniversal (6):\n1. Business/service description (1 sentence)\n2. Monthly marketing budget ($X or range - usually substantial)\n3. Geographic service area (local, regional, national, online-only)\n4. Target customer profile (demographics + psychographics)\n5. Current marketing/communication tools (what platforms/tools they use)\n6. What's working / what's not (current situation assessment)\n\nInnovation-Specific (4):\n7. What's working really well currently (channels, campaigns)\n8. Channels currently using (to understand maturity level)\n9. One channel/tactic curious about but haven't tried (directional insight)\n10. Risk tolerance for testing (conservative vs. aggressive)\n\nBe warm, understanding, and practical. Remember: they're in a strong position, so help them optimize and discover new opportunities. Treat nuance as a feature, not noise.",
+  "questions": [
+    {
+      "id": "business_description",
+      "question_template": "What's your business/service? Tell me in one sentence what you do.",
+      "type": "textarea",
+      "placeholder": "e.g., I run a Colombian apparel boutique in Queens",
+      "required": true,
+      "unlocks_components": ["experimental_channel_portfolio", "testing_framework"]
+    },
+    {
+      "id": "budget",
+      "question_template": "What's your current monthly marketing budget? (Usually substantial if you selected this option)",
+      "type": "select",
+      "options": [
+        "$5,000-10,000",
+        "$10,000-25,000",
+        "$25,000-50,000",
+        "$50,000+",
+        "Not sure yet"
+      ],
+      "required": true,
+      "unlocks_components": ["experimental_channel_portfolio", "testing_framework"]
+    },
+    {
+      "id": "geographic_service_area",
+      "question_template": "What's your geographic service area?",
+      "type": "select",
+      "options": [
+        "Local (specific neighborhood/city)",
+        "Regional (state or multi-city)",
+        "National (US-wide)",
+        "International",
+        "Online-only"
+      ],
+      "required": true,
+      "unlocks_components": ["experimental_channel_portfolio"]
+    },
+    {
+      "id": "target_customer",
+      "question_template": "Who's your ideal customer? Tell me about their demographics and what they care about.",
+      "type": "textarea",
+      "placeholder": "e.g., Small business owners aged 35-55 in Stamford, CT who value personalized service",
+      "required": true,
+      "unlocks_components": ["experimental_channel_portfolio", "testing_framework"]
+    },
+    {
+      "id": "current_tools",
+      "question_template": "What tools or platforms do you currently use for marketing? (Email, social media, website, CRM, analytics, etc.)",
+      "type": "textarea",
+      "placeholder": "e.g., Google Ads, Facebook Ads, Klaviyo, Google Analytics",
+      "required": true,
+      "unlocks_components": ["advanced_analytics_setup", "testing_framework"]
+    },
+    {
+      "id": "whats_working",
+      "question_template": "What's working really well in your current marketing? (Channels, campaigns)",
+      "type": "textarea",
+      "placeholder": "e.g., Google Ads are crushing it, Facebook is okay, email is solid",
+      "required": true,
+      "unlocks_components": ["testing_framework", "experimental_channel_portfolio"]
+    },
+    {
+      "id": "current_channels",
+      "question_template": "What channels are you currently using? (To understand your maturity level)",
+      "type": "textarea",
+      "placeholder": "e.g., Google Ads, Facebook, Instagram, email, some TikTok",
+      "required": true,
+      "unlocks_components": ["experimental_channel_portfolio", "testing_framework"]
+    },
+    {
+      "id": "curious_about",
+      "question_template": "What's one channel or tactic you've been curious about but haven't tried?",
+      "type": "textarea",
+      "placeholder": "e.g., TikTok, CTV ads, programmatic audio, influencer marketing",
+      "required": true,
+      "unlocks_components": ["experimental_channel_portfolio"]
+    },
+    {
+      "id": "risk_tolerance",
+      "question_template": "What's your risk tolerance for testing new things?",
+      "type": "select",
+      "options": [
+        "Conservative (small tests, proven channels only)",
+        "Moderate (willing to try new things with guardrails)",
+        "Aggressive (let's experiment and learn fast)",
+        "Not sure"
+      ],
+      "required": true,
+      "unlocks_components": ["testing_framework", "experimental_channel_portfolio"]
+    },
+    {
+      "id": "optimize_or_discover",
+      "question_template": "Are you looking to optimize what's working or discover something new?",
+      "type": "select",
+      "options": [
+        "Optimize what's working",
+        "Discover something new",
+        "Both",
+        "Not sure"
+      ],
+      "required": true,
+      "unlocks_components": ["testing_framework", "advanced_analytics_setup"]
+    }
+  ],
+  "report_components": [
+    {
+      "id": "experimental_channel_portfolio",
+      "name": "🧪 Experimental Channel Portfolio",
+      "description": "3-4 next-gen channels (TikTok, CTV, programmatic audio) with test budgets and success criteria",
+      "unlock_conditions": ["curious_about", "budget", "risk_tolerance"]
+    },
+    {
+      "id": "testing_framework",
+      "name": "📊 Testing Framework",
+      "description": "70/20/10 allocation strategy (proven/testing/moonshots) with structured A/B testing approach",
+      "unlock_conditions": ["whats_working", "current_channels", "risk_tolerance"]
+    },
+    {
+      "id": "advanced_analytics_setup",
+      "name": "🔬 Advanced Analytics Setup",
+      "description": "Attribution modeling, incrementality testing, and custom dashboard recommendations",
+      "unlock_conditions": ["current_tools", "optimize_or_discover", "budget"]
+    },
+    {
+      "id": "success_metrics",
+      "name": "📈 Success Metrics",
+      "description": "Test learning velocity, incremental ROAS, channel efficiency gains, innovation ROI",
+      "unlock_conditions": ["whats_working", "budget", "current_channels"]
+    },
+    {
+      "id": "timeline",
+      "name": "📅 12-Week Timeline",
+      "description": "Rapid test-and-learn cycles with go/no-go decision points every 2-3 weeks",
+      "unlock_conditions": ["budget", "risk_tolerance", "target_customer"]
+    }
+  ]
+}
+

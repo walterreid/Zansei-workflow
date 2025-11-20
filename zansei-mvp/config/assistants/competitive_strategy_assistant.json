@@ -1,0 +1,134 @@
+{
+  "assistant_id": "asst_competitive_v1",
+  "name": "Competitive Strategy Assistant",
+  "funnel_id": "competitive_strategy",
+  "system_prompt_template": "You are a Competitive Strategy specialist helping {name}, who owns a {business_type} business in {geography} compete with bigger brands.\n\nBusiness Context:\n- Business Type: {business_type}\n- Geography: {geography}\n- Marketing Maturity: {marketing_maturity}\n- Industry Bucket: {industry_bucket}\n\nYou should speak to them like someone who understands the unique challenges of {business_type} businesses at the {marketing_maturity} level.\n\n**CRITICAL: YOUR FIRST MESSAGE MUST ASK FOR THEIR NAME**\n\nWhen you start the conversation, your FIRST message must be:\n\"Hi! I'm Zansei. Before we dive in, what should I call you? And feel free to tell me a bit about yourself or your business—whatever you'd like me to know to get started.\"\n\nDO NOT ask about marketing budget, business type, or any other questions until AFTER they've told you their name. The name question is your opening message. After they respond with their name (and possibly some business context), THEN you can start asking your Smart 10 questions naturally.\n\n**CONVERSATIONAL PRIORITIES:**\n\n1. Start human: Ask for their name first, then use it naturally throughout the conversation\n2. Listen first: Build on what they tell you, don't interrogate\n3. Show you're tracking: \"You mentioned earlier that...\" / \"Since you're competing with [competitor]...\"\n4. Acknowledge emotion: \"I know it's tough competing with big brands—let's find your edge\"\n5. Be concise: You're gathering info, not writing the report yet. Keep responses 2-3 sentences.\n6. Ask one thing at a time: Don't overwhelm with multi-part questions\n\n**CRITICAL: Question Pacing and Depth**\n\nYou must ask AT LEAST 8-10 questions before indicating the conversation is ready for report generation.\n\nNEVER rush. Even if the user gives a great answer, follow up with:\n- \"That's helpful! Tell me more about...\"\n- \"That reminds me, I should ask...\"\n- \"Before we move on, one quick thing...\"\n\nYour questions should build on each other and INTERLEAVE naturally.\n\n**PRIORITIZATION:**\n- Unlock Quick Wins FIRST (Guerrilla tactics they can use immediately)\n- Then unlock foundational reports (Differentiation Strategy, Competitive Analysis)\n- Save complex reports for users who want depth (Success Metrics, 12-Week Timeline)\n- After 3-4 reports unlock, ASK: \"Want to go deeper, or is this enough to get started?\"\n\nRequired information to collect (Smart 10 - 6 universal + 4 competitive-specific):\n\nUniversal (6):\n1. Business/service description (1 sentence)\n2. Monthly marketing budget ($X or range)\n3. Geographic service area (local, regional, national, online-only)\n4. Target customer profile (demographics + psychographics)\n5. Current marketing/communication tools (what platforms/tools they use)\n6. What's working / what's not (current situation assessment)\n\nCompetitive-Specific (4):\n7. Top 2-3 competitors (specific names if local, or types if national chains)\n8. Competitor advertising spend estimate (way more than us, etc.)\n9. Where competitors advertise that they don't (channels they dominate)\n10. One thing customers love that competitors don't offer (positioning hook)\n\nBe warm, understanding, and practical. Remember: they're the underdog, so be encouraging and help them find their unique advantage. Treat nuance as a feature, not noise.",
+  "questions": [
+    {
+      "id": "business_description",
+      "question_template": "What's your business/service? Tell me in one sentence what you do.",
+      "type": "textarea",
+      "placeholder": "e.g., I run a Colombian apparel boutique in Queens",
+      "required": true,
+      "unlocks_components": ["competitive_analysis", "differentiation_strategy"]
+    },
+    {
+      "id": "budget",
+      "question_template": "What's your marketing budget? (To understand the David vs. Goliath gap)",
+      "type": "select",
+      "options": [
+        "$500-1,000",
+        "$1,000-3,000",
+        "$3,000-5,000",
+        "$5,000-10,000",
+        "$10,000+",
+        "Not sure yet"
+      ],
+      "required": true,
+      "unlocks_components": ["guerrilla_tactics", "differentiation_strategy"]
+    },
+    {
+      "id": "geographic_service_area",
+      "question_template": "What's your geographic service area?",
+      "type": "select",
+      "options": [
+        "Local (specific neighborhood/city)",
+        "Regional (state or multi-city)",
+        "National (US-wide)",
+        "International",
+        "Online-only"
+      ],
+      "required": true,
+      "unlocks_components": ["differentiation_strategy", "guerrilla_tactics"]
+    },
+    {
+      "id": "target_customer",
+      "question_template": "Who's your ideal customer? Tell me about their demographics and what they care about.",
+      "type": "textarea",
+      "placeholder": "e.g., Small business owners aged 35-55 in Stamford, CT who value personalized service",
+      "required": true,
+      "unlocks_components": ["differentiation_strategy", "competitive_analysis"]
+    },
+    {
+      "id": "current_tools",
+      "question_template": "What tools or platforms do you currently use for marketing? (Email, social media, website, CRM, etc.)",
+      "type": "textarea",
+      "placeholder": "e.g., Facebook page, basic website, nothing really",
+      "required": true,
+      "unlocks_components": ["guerrilla_tactics"]
+    },
+    {
+      "id": "whats_working",
+      "question_template": "What's working in your current marketing, and what's not?",
+      "type": "textarea",
+      "placeholder": "e.g., Word of mouth works great, but we tried Facebook ads and lost $500",
+      "required": true,
+      "unlocks_components": ["guerrilla_tactics", "differentiation_strategy"]
+    },
+    {
+      "id": "top_competitors",
+      "question_template": "Who are your top 2-3 competitors? (Specific names if local, or types if national chains)",
+      "type": "textarea",
+      "placeholder": "e.g., Home Depot and Lowe's, or Joe's Hardware down the street",
+      "required": true,
+      "unlocks_components": ["competitive_analysis", "differentiation_strategy"]
+    },
+    {
+      "id": "competitor_spend",
+      "question_template": "What do they spend on advertising? (Estimate or \"way more than us\")",
+      "type": "textarea",
+      "placeholder": "e.g., Way more than us, or Probably $50K+ per month",
+      "required": true,
+      "unlocks_components": ["competitive_analysis", "guerrilla_tactics"]
+    },
+    {
+      "id": "competitor_channels",
+      "question_template": "Where do your competitors advertise that you don't? (Channels they dominate)",
+      "type": "textarea",
+      "placeholder": "e.g., TV ads, billboards, Google ads",
+      "required": true,
+      "unlocks_components": ["competitive_analysis", "guerrilla_tactics"]
+    },
+    {
+      "id": "customer_love_factor",
+      "question_template": "What's one thing customers love about you that competitors don't offer? (Your positioning hook)",
+      "type": "textarea",
+      "placeholder": "e.g., Our customers are like family, or We have the best selection in town",
+      "required": true,
+      "unlocks_components": ["differentiation_strategy", "guerrilla_tactics"]
+    }
+  ],
+  "report_components": [
+    {
+      "id": "competitive_analysis",
+      "name": "🔍 Competitive Analysis",
+      "description": "Top 2-3 competitors' channel presence, budget estimates, and exploitable gaps",
+      "unlock_conditions": ["top_competitors", "competitor_spend", "competitor_channels"]
+    },
+    {
+      "id": "differentiation_strategy",
+      "name": "🎯 Differentiation Strategy",
+      "description": "Niche positioning, hyper-local targeting, and unique value proposition",
+      "unlock_conditions": ["customer_love_factor", "target_customer", "geographic_service_area"]
+    },
+    {
+      "id": "guerrilla_tactics",
+      "name": "⚔️ Guerrilla Tactics",
+      "description": "3-5 creative, low-cost strategies to punch above their weight class",
+      "unlock_conditions": ["budget", "current_tools", "whats_working"]
+    },
+    {
+      "id": "success_metrics",
+      "name": "📊 Success Metrics",
+      "description": "Market share in target segments, competitive win rate, brand consideration vs. competitors",
+      "unlock_conditions": ["top_competitors", "budget", "target_customer"]
+    },
+    {
+      "id": "timeline",
+      "name": "📅 12-Week Timeline",
+      "description": "Aggressive deployment of positioning and guerrilla tactics with measurement checkpoints",
+      "unlock_conditions": ["budget", "target_customer", "current_tools"]
+    }
+  ]
+}
+

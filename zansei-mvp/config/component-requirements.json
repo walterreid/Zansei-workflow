@@ -1,0 +1,353 @@
+{
+  "brand_awareness": {
+    "components": {
+      "channel_mix": {
+        "min_questions_required": 4,
+        "required_fields": ["target_customer", "budget", "social_platforms"],
+        "quality_checks": {
+          "target_customer": "must_be_detailed",
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["target_customer", "budget", "social_platforms", "current_outreach"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "local_domination_strategy": {
+        "min_questions_required": 4,
+        "required_fields": ["google_business_profile", "geographic_service_area", "current_outreach"],
+        "quality_checks": {
+          "geographic_service_area": "must_be_specific_location"
+        },
+        "unlock_after_question_ids": ["google_business_profile", "geographic_service_area", "current_outreach", "current_tools"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "content_calendar": {
+        "min_questions_required": 4,
+        "required_fields": ["social_platforms", "target_customer", "differentiation"],
+        "quality_checks": {
+          "target_customer": "must_be_detailed",
+          "differentiation": "must_be_detailed"
+        },
+        "unlock_after_question_ids": ["social_platforms", "target_customer", "differentiation", "current_tools"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "success_metrics": {
+        "min_questions_required": 6,
+        "required_fields": ["budget", "target_customer", "google_business_profile"],
+        "quality_checks": {
+          "budget": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["budget", "target_customer", "google_business_profile", "social_platforms", "geographic_service_area", "whats_working"],
+        "min_unlock_at_progress": 85,
+        "dependencies": ["channel_mix"]
+      },
+      "timeline": {
+        "min_questions_required": 5,
+        "required_fields": ["budget", "target_customer", "current_tools"],
+        "quality_checks": {
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["budget", "target_customer", "current_tools", "geographic_service_area", "whats_working"],
+        "min_unlock_at_progress": 65,
+        "dependencies": []
+      }
+    }
+  },
+  "customer_acquisition": {
+    "components": {
+      "recommended_channels": {
+        "min_questions_required": 4,
+        "required_fields": ["target_customer", "budget", "customer_sources"],
+        "quality_checks": {
+          "target_customer": "must_be_detailed",
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["target_customer", "budget", "customer_sources", "geographic_service_area"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "conversion_strategy": {
+        "min_questions_required": 4,
+        "required_fields": ["current_tools", "target_customer", "geographic_service_area"],
+        "quality_checks": {
+          "target_customer": "must_be_detailed"
+        },
+        "unlock_after_question_ids": ["current_tools", "target_customer", "geographic_service_area", "customer_sources"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "quick_wins": {
+        "min_questions_required": 3,
+        "required_fields": ["timeline", "current_tools", "whats_working"],
+        "quality_checks": {
+          "timeline": "must_be_urgent_for_quick_wins"
+        },
+        "unlock_after_question_ids": ["timeline", "current_tools", "whats_working"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "success_metrics": {
+        "min_questions_required": 6,
+        "required_fields": ["current_cac", "transaction_value", "budget"],
+        "quality_checks": {
+          "budget": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["current_cac", "transaction_value", "budget", "target_customer", "customer_sources", "whats_working"],
+        "min_unlock_at_progress": 85,
+        "dependencies": ["recommended_channels"]
+      },
+      "budget_roi_tracking": {
+        "min_questions_required": 6,
+        "required_fields": ["budget", "current_cac", "transaction_value"],
+        "quality_checks": {
+          "budget": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["budget", "current_cac", "transaction_value", "target_customer", "customer_sources", "whats_working"],
+        "min_unlock_at_progress": 85,
+        "dependencies": ["recommended_channels"]
+      },
+      "timeline": {
+        "min_questions_required": 5,
+        "required_fields": ["timeline", "budget", "target_customer"],
+        "quality_checks": {
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["timeline", "budget", "target_customer", "current_tools", "geographic_service_area"],
+        "min_unlock_at_progress": 65,
+        "dependencies": []
+      }
+    }
+  },
+  "customer_retention": {
+    "components": {
+      "retention_programs": {
+        "min_questions_required": 4,
+        "required_fields": ["contact_collection", "customer_ltv", "customer_love_factor"],
+        "quality_checks": {
+          "customer_love_factor": "must_be_detailed"
+        },
+        "unlock_after_question_ids": ["contact_collection", "customer_ltv", "customer_love_factor", "target_customer"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "communication_strategy": {
+        "min_questions_required": 4,
+        "required_fields": ["current_tools", "contact_collection", "target_customer"],
+        "quality_checks": {
+          "target_customer": "must_be_detailed"
+        },
+        "unlock_after_question_ids": ["current_tools", "contact_collection", "target_customer", "geographic_service_area"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "churn_prevention": {
+        "min_questions_required": 4,
+        "required_fields": ["return_rate", "whats_working", "current_tools"],
+        "quality_checks": {
+          "return_rate": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["return_rate", "whats_working", "current_tools", "contact_collection"],
+        "min_unlock_at_progress": 65,
+        "dependencies": []
+      },
+      "success_metrics": {
+        "min_questions_required": 6,
+        "required_fields": ["return_rate", "customer_ltv", "budget"],
+        "quality_checks": {
+          "budget": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["return_rate", "customer_ltv", "budget", "target_customer", "contact_collection", "whats_working"],
+        "min_unlock_at_progress": 85,
+        "dependencies": ["retention_programs"]
+      },
+      "budget_roi_tracking": {
+        "min_questions_required": 6,
+        "required_fields": ["budget", "customer_ltv", "return_rate"],
+        "quality_checks": {
+          "budget": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["budget", "customer_ltv", "return_rate", "target_customer", "contact_collection", "whats_working"],
+        "min_unlock_at_progress": 85,
+        "dependencies": ["retention_programs"]
+      },
+      "timeline": {
+        "min_questions_required": 5,
+        "required_fields": ["budget", "current_tools", "target_customer"],
+        "quality_checks": {
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["budget", "current_tools", "target_customer", "contact_collection", "geographic_service_area"],
+        "min_unlock_at_progress": 65,
+        "dependencies": []
+      }
+    }
+  },
+  "product_launch": {
+    "components": {
+      "pre_launch_phase": {
+        "min_questions_required": 4,
+        "required_fields": ["launch_date", "existing_customer_base", "current_tools"],
+        "quality_checks": {
+          "launch_date": "must_be_specific_date_or_timeframe"
+        },
+        "unlock_after_question_ids": ["launch_date", "existing_customer_base", "current_tools", "whats_working"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "launch_day_strategy": {
+        "min_questions_required": 4,
+        "required_fields": ["launch_date", "budget", "target_customer"],
+        "quality_checks": {
+          "launch_date": "must_be_specific_date_or_timeframe",
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["launch_date", "budget", "target_customer", "launch_target_audience"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "post_launch_momentum": {
+        "min_questions_required": 4,
+        "required_fields": ["launch_date", "current_tools", "competitive_landscape"],
+        "quality_checks": {
+          "launch_date": "must_be_specific_date_or_timeframe"
+        },
+        "unlock_after_question_ids": ["launch_date", "current_tools", "competitive_landscape", "launch_target_audience"],
+        "min_unlock_at_progress": 65,
+        "dependencies": []
+      },
+      "success_metrics": {
+        "min_questions_required": 6,
+        "required_fields": ["launch_date", "budget", "launch_target_audience"],
+        "quality_checks": {
+          "budget": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["launch_date", "budget", "launch_target_audience", "existing_customer_base", "target_customer", "whats_working"],
+        "min_unlock_at_progress": 85,
+        "dependencies": ["launch_day_strategy"]
+      },
+      "critical_timeline": {
+        "min_questions_required": 5,
+        "required_fields": ["launch_date", "budget", "target_customer"],
+        "quality_checks": {
+          "launch_date": "must_be_specific_date_or_timeframe",
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["launch_date", "budget", "target_customer", "existing_customer_base", "current_tools"],
+        "min_unlock_at_progress": 65,
+        "dependencies": []
+      }
+    }
+  },
+  "competitive_strategy": {
+    "components": {
+      "competitive_analysis": {
+        "min_questions_required": 4,
+        "required_fields": ["top_competitors", "competitor_spend", "competitor_channels"],
+        "quality_checks": {
+          "top_competitors": "must_be_detailed"
+        },
+        "unlock_after_question_ids": ["top_competitors", "competitor_spend", "competitor_channels", "budget"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "differentiation_strategy": {
+        "min_questions_required": 4,
+        "required_fields": ["customer_love_factor", "target_customer", "geographic_service_area"],
+        "quality_checks": {
+          "customer_love_factor": "must_be_detailed",
+          "target_customer": "must_be_detailed"
+        },
+        "unlock_after_question_ids": ["customer_love_factor", "target_customer", "geographic_service_area", "top_competitors"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "guerrilla_tactics": {
+        "min_questions_required": 4,
+        "required_fields": ["budget", "current_tools", "whats_working"],
+        "quality_checks": {
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["budget", "current_tools", "whats_working", "competitor_channels"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "success_metrics": {
+        "min_questions_required": 6,
+        "required_fields": ["top_competitors", "budget", "target_customer"],
+        "quality_checks": {
+          "budget": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["top_competitors", "budget", "target_customer", "competitor_spend", "customer_love_factor", "whats_working"],
+        "min_unlock_at_progress": 85,
+        "dependencies": ["competitive_analysis"]
+      },
+      "timeline": {
+        "min_questions_required": 5,
+        "required_fields": ["budget", "target_customer", "current_tools"],
+        "quality_checks": {
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["budget", "target_customer", "current_tools", "geographic_service_area", "whats_working"],
+        "min_unlock_at_progress": 65,
+        "dependencies": []
+      }
+    }
+  },
+  "innovation": {
+    "components": {
+      "experimental_channel_portfolio": {
+        "min_questions_required": 4,
+        "required_fields": ["curious_about", "budget", "risk_tolerance"],
+        "quality_checks": {
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["curious_about", "budget", "risk_tolerance", "current_channels"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "testing_framework": {
+        "min_questions_required": 4,
+        "required_fields": ["whats_working", "current_channels", "risk_tolerance"],
+        "quality_checks": {
+          "whats_working": "must_be_detailed"
+        },
+        "unlock_after_question_ids": ["whats_working", "current_channels", "risk_tolerance", "optimize_or_discover"],
+        "min_unlock_at_progress": 55,
+        "dependencies": []
+      },
+      "advanced_analytics_setup": {
+        "min_questions_required": 5,
+        "required_fields": ["current_tools", "optimize_or_discover", "budget"],
+        "quality_checks": {
+          "budget": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["current_tools", "optimize_or_discover", "budget", "whats_working", "current_channels"],
+        "min_unlock_at_progress": 75,
+        "dependencies": []
+      },
+      "success_metrics": {
+        "min_questions_required": 6,
+        "required_fields": ["whats_working", "budget", "current_channels"],
+        "quality_checks": {
+          "budget": "must_be_specific_number_or_range"
+        },
+        "unlock_after_question_ids": ["whats_working", "budget", "current_channels", "curious_about", "risk_tolerance", "optimize_or_discover"],
+        "min_unlock_at_progress": 85,
+        "dependencies": ["testing_framework"]
+      },
+      "timeline": {
+        "min_questions_required": 5,
+        "required_fields": ["budget", "risk_tolerance", "target_customer"],
+        "quality_checks": {
+          "budget": "must_be_specific_range"
+        },
+        "unlock_after_question_ids": ["budget", "risk_tolerance", "target_customer", "current_channels", "whats_working"],
+        "min_unlock_at_progress": 65,
+        "dependencies": []
+      }
+    }
+  }
+}
+

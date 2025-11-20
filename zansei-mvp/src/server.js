@@ -21,6 +21,7 @@ const DB_PATH = process.env.DATABASE_PATH || './data/zansei.db';
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
+app.use('/generated_reports', express.static(path.join(__dirname, '../generated_reports')));
 
 // Routes
 app.use('/api/conversation', conversationRoutes);

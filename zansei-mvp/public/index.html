@@ -30,7 +30,10 @@
     <!-- Conversation Section -->
     <section id="conversation-section" class="section hidden">
       <div class="conversation-header">
-        <h2>Conversation with Zansei</h2>
+        <div class="conversation-title-row">
+          <h2>Conversation with Zansei</h2>
+          <button id="new-conversation-from-chat-btn" class="btn btn-secondary">Start New Conversation</button>
+        </div>
         <div id="progress-bar">
           <div id="progress-fill"></div>
           <span id="progress-text">0%</span>
@@ -49,13 +52,29 @@
         <h3>Report Components</h3>
         <div id="components-list"></div>
       </div>
+
+      <!-- Debug Panel -->
+      <div id="debug-panel" class="debug-panel hidden">
+        <div class="debug-header">
+          <h3>🔍 Debug: Questions & Data</h3>
+          <button id="toggle-debug" class="btn-debug">Show Debug</button>
+        </div>
+        <div id="debug-content">
+          <p style="color: #666; font-style: italic;">Click "Show Debug" above or use the button in the header to view debug information.</p>
+        </div>
+      </div>
     </section>
 
     <!-- Report Section -->
     <section id="report-section" class="section hidden">
-      <h2>Your Brand Awareness Strategy Report</h2>
+      <div class="report-header">
+        <h2>Your Brand Awareness Strategy Report</h2>
+        <div class="report-actions">
+          <button id="back-to-conversation-btn" class="btn btn-primary" style="display: none;">← Back to Conversation</button>
+          <button id="new-conversation-btn" class="btn btn-secondary">Start New Conversation</button>
+        </div>
+      </div>
       <div id="report-content"></div>
-      <button id="new-conversation-btn" class="btn btn-secondary">Start New Conversation</button>
     </section>
 
     <!-- Loading Overlay -->

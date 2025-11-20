@@ -64,6 +64,8 @@ export async function getSession(sessionId) {
     selected_funnel: JSON.parse(session.selected_funnel),
     unlocked_components: JSON.parse(session.unlocked_components || '[]'),
     progress: JSON.parse(session.progress || '{}'),
+    upgrade_mode: session.upgrade_mode ? JSON.parse(session.upgrade_mode) : null,
+    user_name: session.user_name || null,
     is_complete: Boolean(session.is_complete)
   };
 }
@@ -88,6 +90,14 @@ export async function updateSession(sessionId, updates) {
   if (updates.is_complete !== undefined) {
     fields.push('is_complete = ?');
     values.push(updates.is_complete ? 1 : 0);
+  }
+  if (updates.upgrade_mode !== undefined) {
+    fields.push('upgrade_mode = ?');
+    values.push(typeof updates.upgrade_mode === 'string' ? updates.upgrade_mode : JSON.stringify(updates.upgrade_mode));
+  }
+  if (updates.user_name !== undefined) {
+    fields.push('user_name = ?');
+    values.push(updates.user_name);
   }
 
   fields.push('updated_at = CURRENT_TIMESTAMP');
@@ -127,7 +137,7 @@ export async function getConversationHistory(sessionId) {
   }));
 }
 
-export async function saveCollectedData(sessionId, questionId, rawAnswer, normalizedValue) {
+export async function saveCollectedData(sessionId, questionId, rawAnswer, normalizedValue, confidence = null) {
   const run = getRun();
   
   // Check if data already exists for this question
@@ -140,15 +150,15 @@ export async function saveCollectedData(sessionId, questionId, rawAnswer, normal
   if (existing) {
     await run(
       `UPDATE collected_data 
-       SET raw_answer = ?, normalized_value = ?, timestamp = CURRENT_TIMESTAMP
+       SET raw_answer = ?, normalized_value = ?, confidence = ?, timestamp = CURRENT_TIMESTAMP
        WHERE session_id = ? AND question_id = ?`,
-      [rawAnswer, normalizedValue, sessionId, questionId]
+      [rawAnswer, normalizedValue, confidence, sessionId, questionId]
     );
   } else {
     await run(
-      `INSERT INTO collected_data (session_id, question_id, raw_answer, normalized_value)
-       VALUES (?, ?, ?, ?)`,
-      [sessionId, questionId, rawAnswer, normalizedValue]
+      `INSERT INTO collected_data (session_id, question_id, raw_answer, normalized_value, confidence)
+       VALUES (?, ?, ?, ?, ?)`,
+      [sessionId, questionId, rawAnswer, normalizedValue, confidence]
     );
   }
 }
@@ -165,7 +175,8 @@ export async function getCollectedData(sessionId) {
     result[row.question_id] = {
       raw_answer: row.raw_answer,
       normalized_value: row.normalized_value,
-      question_id: row.question_id
+      question_id: row.question_id,
+      confidence: row.confidence || null // Include confidence if stored
     };
   }
 

@@ -1,0 +1,153 @@
+{
+  "assistant_id": "asst_acquisition_v1",
+  "name": "Customer Acquisition Assistant",
+  "funnel_id": "customer_acquisition",
+  "system_prompt_template": "You are a Customer Acquisition specialist helping {name}, who owns a {business_type} business in {geography} address their customer acquisition challenge.\n\nBusiness Context:\n- Business Type: {business_type}\n- Geography: {geography}\n- Marketing Maturity: {marketing_maturity}\n- Industry Bucket: {industry_bucket}\n\nYou should speak to them like someone who understands the unique challenges of {business_type} businesses at the {marketing_maturity} level.\n\n**CRITICAL: YOUR FIRST MESSAGE MUST ASK FOR THEIR NAME**\n\nWhen you start the conversation, your FIRST message must be:\n\"Hi! I'm Zansei. Before we dive in, what should I call you? And feel free to tell me a bit about yourself or your business—whatever you'd like me to know to get started.\"\n\nDO NOT ask about marketing budget, business type, or any other questions until AFTER they've told you their name. The name question is your opening message. After they respond with their name (and possibly some business context), THEN you can start asking your Smart 10 questions naturally.\n\n**CONVERSATIONAL PRIORITIES:**\n\n1. Start human: Ask for their name first, then use it naturally throughout the conversation\n2. Listen first: Build on what they tell you, don't interrogate\n3. Show you're tracking: \"You mentioned earlier that...\" / \"Since you're a [business type]...\"\n4. Acknowledge emotion: \"I know losing $500 hurts—let's make sure that doesn't happen again\"\n5. Be concise: You're gathering info, not writing the report yet. Keep responses 2-3 sentences.\n6. Ask one thing at a time: Don't overwhelm with multi-part questions\n\n**CRITICAL: Question Pacing and Depth**\n\nYou must ask AT LEAST 8-10 questions before indicating the conversation is ready for report generation.\n\nNEVER rush. Even if the user gives a great answer, follow up with:\n- \"That's helpful! Tell me more about...\"\n- \"That reminds me, I should ask...\"\n- \"Before we move on, one quick thing...\"\n\nYour questions should build on each other and INTERLEAVE naturally:\n- If they mention budget early, capture it\n- If they start talking about customers first, follow that thread\n- Build on what they tell you, don't force a checklist order\n\n**QUALITY OVER SPEED:**\n- If they say \"families\", probe: \"What age? What do they care about? Where do they live?\"\n- If they say \"$1-2K budget\", probe: \"Have you spent on marketing before? What happened?\"\n- If they say \"word of mouth\", probe: \"How do customers currently hear about you? What makes them recommend you?\"\n\n**PRIORITIZATION:**\n- Unlock Quick Wins FIRST (actionable, immediate value)\n- Then unlock foundational reports (Recommended Channels, Conversion Strategy)\n- Save complex reports for users who want depth (Budget/ROI, Performance Metrics)\n- After 3-4 reports unlock, ASK: \"Want to go deeper, or is this enough to get started?\"\n\n**DO NOT unlock report components until:**\n- You have 8+ questions answered\n- You have detailed answers (not just \"yes/no\" or one word)\n- You understand their emotional state (fears, hopes, past trauma)\n\nProgress should look like:\n- Questions 1-3: 13%, 25%, 38% (NO components unlocked)\n- Questions 4-5: 50%, 63% (Maybe 1-2 basic components unlock - Quick Wins)\n- Questions 6-7: 75%, 88% (3-4 components unlocked)\n- Question 8+: 100% (All possible components unlocked based on data quality)\n\n**UPGRADE MODE INSTRUCTIONS:**\nWhen a user wants to unlock a specific report component, you'll receive a list of missing questions.\n\nYour approach:\n1. Acknowledge: \"Great! To create your [Component Name], I need [X] more quick questions.\"\n2. Ask missing questions ONE AT A TIME, referencing their previous answers\n3. After each answer, thank them specifically, then either ask next question OR congratulate completion\n4. Keep it brief - don't re-ask things you already know\n\n**REPORT QUALITY:**\n- It's better to have 3 excellent, specific reports than 6 generic ones\n- Don't generate \"Budget & ROI Tracking\" if you don't know their budget or goals\n- Don't generate \"Performance Metrics\" if you don't know their goals\n- Mark components as \"insufficient data\" rather than writing fluff\n\nRequired information to collect (Smart 10 - 6 universal + 4 acquisition-specific):\n\nUniversal (6):\n1. Business/service description (1 sentence)\n2. Monthly marketing budget ($X or range)\n3. Geographic service area (local, regional, national, online-only)\n4. Target customer profile (demographics + psychographics)\n5. Current marketing/communication tools (what platforms/tools they use)\n6. What's working / what's not (current situation assessment)\n\nAcquisition-Specific (4):\n7. Current customer acquisition cost (if known, or \"not sure\")\n8. Where current customers come from (word of mouth, walk-ins, online, etc.)\n9. Average customer transaction value (helps calculate acceptable CAC)\n10. Timeline urgency (need customers immediately vs. building over time)\n\nAfter each user response, acknowledge what they said naturally, then ask your next question. Once you have answers to all required questions with sufficient detail, let them know you have everything needed to create their customer acquisition strategy.\n\nBe warm, understanding, and practical. Remember: they need customers NOW, so prioritize actionable quick wins. Treat nuance as a feature, not noise.",
+  "questions": [
+    {
+      "id": "business_description",
+      "question_template": "What's your business/service? Tell me in one sentence what you do.",
+      "type": "textarea",
+      "placeholder": "e.g., I run a Colombian apparel boutique in Queens",
+      "required": true,
+      "unlocks_components": ["recommended_channels", "conversion_strategy"]
+    },
+    {
+      "id": "budget",
+      "question_template": "What's your monthly marketing budget for acquiring new customers?",
+      "type": "select",
+      "options": [
+        "$500-1,000",
+        "$1,000-3,000",
+        "$3,000-5,000",
+        "$5,000-10,000",
+        "$10,000+",
+        "Not sure yet"
+      ],
+      "required": true,
+      "unlocks_components": ["budget_roi_tracking", "recommended_channels"]
+    },
+    {
+      "id": "geographic_service_area",
+      "question_template": "What's your geographic service area?",
+      "type": "select",
+      "options": [
+        "Local (specific neighborhood/city)",
+        "Regional (state or multi-city)",
+        "National (US-wide)",
+        "International",
+        "Online-only"
+      ],
+      "required": true,
+      "unlocks_components": ["recommended_channels", "conversion_strategy"]
+    },
+    {
+      "id": "target_customer",
+      "question_template": "Who's your ideal customer? Tell me about their demographics and what they care about.",
+      "type": "textarea",
+      "placeholder": "e.g., Small business owners aged 35-55 in Stamford, CT who value personalized service",
+      "required": true,
+      "unlocks_components": ["recommended_channels", "conversion_strategy"]
+    },
+    {
+      "id": "current_tools",
+      "question_template": "What tools or platforms do you currently use for marketing? (Email, social media, website, CRM, etc.)",
+      "type": "textarea",
+      "placeholder": "e.g., Facebook page, basic website, nothing really",
+      "required": true,
+      "unlocks_components": ["conversion_strategy", "quick_wins"]
+    },
+    {
+      "id": "whats_working",
+      "question_template": "What's working in your current marketing, and what's not?",
+      "type": "textarea",
+      "placeholder": "e.g., Word of mouth works great, but we tried Facebook ads and lost $500",
+      "required": true,
+      "unlocks_components": ["recommended_channels", "quick_wins"]
+    },
+    {
+      "id": "current_cac",
+      "question_template": "What's your typical customer acquisition cost currently? (If you know it, or just say 'not sure')",
+      "type": "textarea",
+      "placeholder": "e.g., Around $50 per customer, or Not sure",
+      "required": true,
+      "unlocks_components": ["budget_roi_tracking", "performance_metrics"]
+    },
+    {
+      "id": "customer_sources",
+      "question_template": "Where do most of your current customers come from?",
+      "type": "select",
+      "options": [
+        "Word of mouth",
+        "Walk-ins / foot traffic",
+        "Online (website, social media)",
+        "Referrals",
+        "Paid advertising",
+        "Mix of several",
+        "Not sure"
+      ],
+      "required": true,
+      "unlocks_components": ["recommended_channels", "conversion_strategy"]
+    },
+    {
+      "id": "transaction_value",
+      "question_template": "What's your average customer transaction value? (How much does a typical customer spend?)",
+      "type": "textarea",
+      "placeholder": "e.g., $150 per visit, or $2,000 per project",
+      "required": true,
+      "unlocks_components": ["budget_roi_tracking", "performance_metrics"]
+    },
+    {
+      "id": "timeline",
+      "question_template": "When do you need to start seeing new customers?",
+      "type": "select",
+      "options": [
+        "Urgently (this week/month)",
+        "Soon (2-3 months)",
+        "Building for the future (6+ months)",
+        "Just exploring"
+      ],
+      "required": true,
+      "unlocks_components": ["quick_wins", "conversion_strategy"]
+    }
+  ],
+  "report_components": [
+    {
+      "id": "recommended_channels",
+      "name": "📢 Recommended Channels",
+      "description": "3-4 direct response channels with specific budget allocation",
+      "unlock_conditions": ["target_customer", "budget", "customer_sources"]
+    },
+    {
+      "id": "conversion_strategy",
+      "name": "🎯 Conversion Strategy",
+      "description": "Landing page/funnel recommendations and immediate lead capture tactics",
+      "unlock_conditions": ["current_tools", "target_customer", "geographic_service_area"]
+    },
+    {
+      "id": "quick_wins",
+      "name": "⚡ Quick Wins",
+      "description": "3-5 actions you can take in the first 2 weeks to start generating leads",
+      "unlock_conditions": ["timeline", "current_tools", "whats_working"]
+    },
+    {
+      "id": "success_metrics",
+      "name": "📊 Success Metrics",
+      "description": "Key KPIs to track (leads, cost-per-lead, conversion rate by channel)",
+      "unlock_conditions": ["current_cac", "transaction_value", "budget"]
+    },
+    {
+      "id": "budget_roi_tracking",
+      "name": "💰 Budget & ROI Tracking",
+      "description": "How to allocate your budget and measure what's working",
+      "unlock_conditions": ["budget", "current_cac", "transaction_value"]
+    },
+    {
+      "id": "timeline",
+      "name": "📅 12-Week Timeline",
+      "description": "Week-by-week rollout focusing on testing, optimization, and scaling",
+      "unlock_conditions": ["timeline", "budget", "target_customer"]
+    }
+  ]
+}
+

@@ -26,9 +26,9 @@ export async function generateReport(sessionId) {
   const reportRequest = buildReportRequest(session, collectedData);
 
   // Get report generator assistant ID
-  const reportAssistantId = openaiService.getAssistantId('brand_awareness_report');
+  const reportAssistantId = openaiService.getAssistantId(session.selected_funnel.id, 'report');
   if (!reportAssistantId) {
-    throw new Error('Report generator assistant not initialized.');
+    throw new Error(`Report generator assistant not initialized for funnel: ${session.selected_funnel.id}`);
   }
 
   // Create report record
@@ -100,6 +100,7 @@ function buildReportRequest(session, collectedData) {
   return {
     session_id: session.session_id,
     funnel_id: funnel.id,
+    user_name: session.user_name || null,
     business_context: {
       business_type: bubbleAnswers.business_type?.value || bubbleAnswers.business_type,
       business_type_label: businessTypeOption?.label || bubbleAnswers.business_type,

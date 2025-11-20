@@ -9,11 +9,15 @@ Zansei helps small business owners identify their marketing challenges and gener
 ## Features
 
 - **Conversational Interface**: Natural back-and-forth conversation (not a form)
-- **Progressive Component Unlocking**: Report components unlock as questions are answered
+- **Progressive Component Unlocking**: Report components unlock as questions are answered with quality checks
 - **Hyper-Personalized Reports**: Reports reference specific business context, location, and budget
-- **Brand Awareness Funnel**: Complete implementation for brand awareness challenges
+- **Interactive Report Generation**: Click unlocked components to generate beautiful HTML reports
+- **Upgrade Flow**: Click locked components to answer targeted questions and unlock them
+- **AI-Native Data Extraction**: Uses OpenAI structured outputs - no regex, fully flexible and maintainable
+- **6 Marketing Funnels**: Customer Acquisition, Brand Awareness, Customer Retention, Product Launch, Competitive Strategy, and Innovation
+- **Smart 10 Questions**: 6 universal questions + 4 funnel-specific questions for comprehensive data collection
 - **Persona Testing**: Realistic persona simulation for testing and demos
-- **Web UI**: Simple, clean interface showing conversation and component unlocking
+- **Web UI**: Simple, clean interface showing conversation, component unlocking, and debug panel
 
 ## Tech Stack
 
@@ -65,17 +69,19 @@ Zansei helps small business owners identify their marketing challenges and gener
    ```
 
 5. **Open your browser:**
-   Navigate to `http://localhost:3000`
+   Navigate to `http://localhost:3002`
 
 ## Usage
 
 ### Web Interface
 
 1. **Answer Bubble Questions**: Select your business type, geography, and marketing maturity
-2. **Select Your Challenge**: Choose "Nobody Knows About Us" (Brand Awareness)
-3. **Have a Conversation**: Answer Zansei's questions naturally
-4. **Watch Components Unlock**: See report components light up as you answer
-5. **Generate Report**: Once complete, generate your personalized strategy report
+2. **Select Your Challenge**: Choose from 6 marketing funnels (e.g., "Nobody Knows About Us" for Brand Awareness)
+3. **Have a Conversation**: Answer Zansei's questions naturally (Zansei will ask for your name first)
+4. **Watch Components Unlock**: See report components light up as you answer with sufficient detail
+5. **Generate Individual Reports**: Click any unlocked component to generate a beautiful HTML report
+6. **Upgrade Locked Components**: Click "Answer Questions to Unlock" on partial/locked components to answer targeted follow-up questions
+7. **Debug Panel**: Click "🔍 Show Debug" to see extracted data, progress calculation, and unlock logic
 
 ### Persona Testing
 
@@ -90,6 +96,19 @@ This will:
 - Show progress and component unlocking
 - Generate a complete report
 - Save the report to `test-outputs/`
+
+### Updating Assistants
+
+To update all assistants with the latest configs (useful after modifying system prompts):
+
+```bash
+npm run update-assistants
+```
+
+This will:
+- Force-update all assistants with latest instructions
+- Create any missing assistants
+- Verify that assistants have correct instructions
 
 ## Project Structure
 
@@ -119,7 +138,8 @@ zansei-mvp/
 │   │   └── report.routes.js                  # Report API endpoints
 │   ├── utils/
 │   │   ├── promptBuilder.js                  # System prompt building
-│   │   └── dataExtractor.js                  # Data extraction utilities
+│   │   ├── schemaBuilder.js                  # Dynamic JSON schema generation for AI extraction
+│   │   └── dataExtractor.js                  # Component unlock logic and quality assessment
 │   └── server.js                             # Express server setup
 ├── public/
 │   ├── index.html                             # Web UI
@@ -155,41 +175,57 @@ zansei-mvp/
   ```
 
 - `GET /api/conversation/:sessionId` - Get conversation state
+- `GET /api/conversation/:sessionId/debug` - Get debug information (extracted data, progress, unlock logic)
+- `POST /api/conversation/upgrade-component` - Start upgrade flow for a locked component
+  ```json
+  {
+    "session_id": "uuid",
+    "component_id": "quick_wins"
+  }
+  ```
 
 ### Reports
 
-- `POST /api/report/generate` - Generate report
+- `POST /api/report/generate-html/:componentId` - Generate HTML report for a specific component
   ```json
   {
     "session_id": "uuid"
   }
   ```
+  Returns: `{ view_url: "/api/report/view/filename.html", download_url: "/api/report/download/filename.html" }`
 
+- `GET /api/report/view/:filename` - View generated HTML report
+- `GET /api/report/download/:filename` - Download generated HTML report
+- `POST /api/report/generate` - Generate full report (legacy endpoint)
 - `GET /api/report/:reportId` - Get generated report
 - `GET /api/report/session/:sessionId` - Get report by session
 
 ## OpenAI Assistant Setup
 
-The system automatically creates two OpenAI assistants on startup:
+The system automatically creates and manages 12 OpenAI assistants on startup (6 conversation assistants + 6 report generators):
 
-1. **Brand Awareness Conversation Assistant** - Handles the conversation flow
-2. **Brand Awareness Report Generator** - Generates personalized reports
+1. **Customer Acquisition** - Conversation assistant + Report generator
+2. **Brand Awareness** - Conversation assistant + Report generator
+3. **Customer Retention** - Conversation assistant + Report generator
+4. **Product Launch** - Conversation assistant + Report generator
+5. **Competitive Strategy** - Conversation assistant + Report generator
+6. **Innovation/Experimentation** - Conversation assistant + Report generator
 
-Assistant IDs are automatically saved to your `.env` file for reference.
+### Assistant Management
 
-### Manual Assistant Creation (Optional)
+**Automatic Updates**: The system automatically updates assistant instructions if they've changed in the config files.
 
-If you want to create assistants manually or reuse existing ones:
+**Manual Update Script**: To force-update all assistants with latest configs:
+```bash
+npm run update-assistants
+```
 
-1. Go to [OpenAI Assistants Dashboard](https://platform.openai.com/assistants)
-2. Create assistants with the system prompts from:
-   - `config/assistants/brand_awareness_assistant.json`
-   - `config/report_generators/brand_awareness_report.json`
-3. Add the assistant IDs to your `.env` file:
-   ```bash
-   BRAND_AWARENESS_ASSISTANT_ID=asst_xxxxx
-   BRAND_AWARENESS_REPORT_GENERATOR_ID=asst_xxxxx
-   ```
+This will:
+- Update all existing assistants with latest system prompts
+- Create any missing assistants
+- Verify that assistants have the correct instructions
+
+**Reusing Existing Assistants**: The system automatically reuses assistants by name if they already exist, preventing duplicate creation.
 
 ## Configuration
 
@@ -202,10 +238,12 @@ If you want to create assistants manually or reuse existing ones:
 
 ### Customizing Questions
 
-Edit `config/assistants/brand_awareness_assistant.json`:
+Edit any assistant config in `config/assistants/[funnel_id]_assistant.json`:
 - Modify `questions` array to add/remove questions
 - Update `report_components` to define unlock conditions
 - Adjust `system_prompt_template` for conversation style
+
+**Note**: The AI-native extraction system automatically generates JSON schemas from your question configs. No code changes needed when adding new question types - just update the config!
 
 ### Customizing Report Structure
 
@@ -270,9 +308,57 @@ The SQLite database has four main tables:
 
 See `src/models/database.js` for schema details.
 
+## AI-Native Data Extraction
+
+Zansei uses a fully AI-native approach for extracting structured data from conversations:
+
+### How It Works
+
+1. **Dynamic Schema Generation**: The `schemaBuilder.js` utility generates JSON schemas from your assistant configs
+2. **Structured Outputs**: Uses OpenAI's structured outputs feature to ensure reliable, validated extraction
+3. **Intelligent Normalization**: AI understands context and normalizes answers intelligently (e.g., "1k" → "$1,000-3,000")
+4. **Confidence Scoring**: Each extracted answer includes a confidence score (0.0-1.0) for quality assessment
+5. **Context Extraction**: Captures implicit information like timeline, constraints, and emotional state
+
+### Benefits
+
+- **No Regex**: All extraction is AI-driven - no hardcoded patterns to maintain
+- **Flexible**: Schema changes automatically when you update question configs
+- **Maintainable**: No code changes needed when adding new question types
+- **Intelligent**: AI understands nuance and context, not just pattern matching
+- **Robust**: Handles edge cases naturally
+
+### Example
+
+User says: "Well right now 0, but I would like to scale... so maybe 1k but we'd need to start after the new year"
+
+AI extracts:
+```json
+{
+  "budget": {
+    "raw_answer": "Well right now 0, but I would like to scale... so maybe 1k",
+    "normalized_value": "$1,000-3,000",
+    "confidence": 0.75,
+    "extracted_context": {
+      "timeline": "after_new_year",
+      "current_budget": "$0"
+    }
+  }
+}
+```
+
+## Recent Updates
+
+- ✅ **Interactive Report Generation**: Click unlocked components to generate beautiful HTML reports
+- ✅ **Upgrade Flow**: Answer targeted questions to unlock specific report components
+- ✅ **Debug Panel**: Visualize extracted data, progress calculation, and component unlock logic
+- ✅ **AI-Native Extraction**: Fully refactored to use OpenAI structured outputs (no regex)
+- ✅ **All 6 Funnels**: Complete implementation of all marketing funnels
+- ✅ **Smart 10 Questions**: Universal + funnel-specific question strategy
+- ✅ **Component Quality Checks**: Reports only unlock when answers meet quality thresholds
+
 ## Future Enhancements
 
-- [ ] Add remaining 5 funnels (Customer Acquisition, Retention, etc.)
 - [ ] Add user authentication
 - [ ] Implement Redis for session caching
 - [ ] Add report export (PDF, DOCX)
@@ -280,6 +366,7 @@ See `src/models/database.js` for schema details.
 - [ ] Implement two-assistant persona simulation
 - [ ] Add conversation resumption
 - [ ] Add report sharing/email
+- [ ] Add report comparison (before/after upgrade)
 
 ## License
 

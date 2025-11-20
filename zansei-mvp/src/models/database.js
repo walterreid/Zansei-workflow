@@ -40,17 +40,31 @@ async function createTables() {
     CREATE TABLE IF NOT EXISTS sessions (
       session_id TEXT PRIMARY KEY,
       user_id TEXT,
+      user_name TEXT,
       bubble_answers TEXT NOT NULL,
       selected_funnel TEXT NOT NULL,
       openai_thread_id TEXT,
       openai_assistant_id TEXT,
       unlocked_components TEXT,
       progress TEXT,
+      upgrade_mode TEXT,
       is_complete INTEGER DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+  
+  // Add upgrade_mode and user_name columns if they don't exist (for existing databases)
+  try {
+    await run(`ALTER TABLE sessions ADD COLUMN upgrade_mode TEXT`);
+  } catch (e) {
+    // Column already exists, ignore
+  }
+  try {
+    await run(`ALTER TABLE sessions ADD COLUMN user_name TEXT`);
+  } catch (e) {
+    // Column already exists, ignore
+  }
 
   // Conversations table
   await run(`
@@ -73,10 +87,18 @@ async function createTables() {
       question_id TEXT NOT NULL,
       raw_answer TEXT NOT NULL,
       normalized_value TEXT,
+      confidence REAL,
       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (session_id) REFERENCES sessions(session_id)
     )
   `);
+  
+  // Add confidence column if it doesn't exist (for existing databases)
+  try {
+    await run(`ALTER TABLE collected_data ADD COLUMN confidence REAL`);
+  } catch (e) {
+    // Column already exists, ignore
+  }
 
   // Reports table
   await run(`

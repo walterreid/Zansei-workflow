@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export function buildSystemPrompt(bubbleAnswers, assistantConfig) {
+export function buildSystemPrompt(bubbleAnswers, assistantConfig, userName = null) {
   let systemPrompt = assistantConfig.system_prompt_template;
 
   // Extract values from bubble answers
@@ -17,7 +17,11 @@ export function buildSystemPrompt(bubbleAnswers, assistantConfig) {
   // Determine business size (simple heuristic)
   const businessSize = 'small'; // Default for MVP
 
+  // Use provided name or default
+  const name = userName || 'Business Owner';
+
   // Replace placeholders
+  systemPrompt = systemPrompt.replace(/{name}/g, name);
   systemPrompt = systemPrompt.replace(/{business_type}/g, businessType);
   systemPrompt = systemPrompt.replace(/{geography}/g, geography);
   systemPrompt = systemPrompt.replace(/{marketing_maturity}/g, marketingMaturity);

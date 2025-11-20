@@ -43,11 +43,46 @@
   ],
   "funnels": [
     {
+      "id": "customer_acquisition",
+      "label": "📉 Not Enough Customers",
+      "description": "I need more sales, leads, or foot traffic",
+      "assistant_id": "asst_acquisition_v1",
+      "report_generator_id": "asst_report_acquisition_v1"
+    },
+    {
       "id": "brand_awareness",
       "label": "🔍 Nobody Knows About Us",
       "description": "People don't know my business exists",
       "assistant_id": "asst_awareness_v1",
       "report_generator_id": "asst_report_awareness_v1"
+    },
+    {
+      "id": "customer_retention",
+      "label": "🔄 Can't Keep Regular Customers",
+      "description": "Customers don't come back or stay loyal",
+      "assistant_id": "asst_retention_v1",
+      "report_generator_id": "asst_report_retention_v1"
+    },
+    {
+      "id": "product_launch",
+      "label": "🚀 Launching Something New",
+      "description": "I'm launching a new product or service",
+      "assistant_id": "asst_launch_v1",
+      "report_generator_id": "asst_report_launch_v1"
+    },
+    {
+      "id": "competitive_strategy",
+      "label": "⚔️ Competing With Big Brands",
+      "description": "Big competitors are outspending me",
+      "assistant_id": "asst_competitive_v1",
+      "report_generator_id": "asst_report_competitive_v1"
+    },
+    {
+      "id": "innovation",
+      "label": "💤 I Sleep on a Big Bag of Money",
+      "description": "Just experimenting (I sleep like a baby)",
+      "assistant_id": "asst_innovation_v1",
+      "report_generator_id": "asst_report_innovation_v1"
     }
   ]
 }
