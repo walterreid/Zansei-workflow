@@ -14,6 +14,7 @@ Zansei helps small business owners identify their marketing challenges and gener
 - **Interactive Report Generation**: Click unlocked components to generate beautiful HTML reports
 - **Upgrade Flow**: Click locked components to answer targeted questions and unlock them
 - **AI-Native Data Extraction**: Uses OpenAI structured outputs - no regex, fully flexible and maintainable
+- **Knowledge Injection System**: Dynamic knowledge base (persona, industry insights, funnel tactics, benchmarks) injected into every conversation
 - **6 Marketing Funnels**: Customer Acquisition, Brand Awareness, Customer Retention, Product Launch, Competitive Strategy, and Innovation
 - **Smart 10 Questions**: 6 universal questions + 4 funnel-specific questions for comprehensive data collection
 - **Persona Testing**: Realistic persona simulation for testing and demos
@@ -108,7 +109,19 @@ npm run update-assistants
 This will:
 - Force-update all assistants with latest instructions
 - Create any missing assistants
-- Verify that assistants have correct instructions
+- Verify that assistants have the correct instructions
+
+### Updating Benchmarks
+
+To update marketing benchmarks data:
+
+```bash
+npm run update-benchmarks
+```
+
+This will:
+- Update the `last_updated` timestamp in `knowledge/benchmarks.json`
+- (Future: Will fetch fresh data from industry APIs)
 
 ## Project Structure
 
@@ -120,6 +133,12 @@ zansei-mvp/
 │   │   └── brand_awareness_assistant.json    # Conversation assistant config
 │   └── report_generators/
 │       └── brand_awareness_report.json        # Report generator config
+├── knowledge/                                # Knowledge base (injected into prompts)
+│   ├── zan_ng_persona.md                     # Zan Ng persona definition
+│   ├── smb_insights.md                       # Small business marketing insights
+│   ├── benchmarks.json                       # Marketing benchmarks
+│   ├── funnels/                              # Funnel-specific knowledge (6 files)
+│   └── industries/                           # Industry-specific knowledge (4 files)
 ├── test/
 │   ├── personas/
 │   │   └── maria_rodriguez.json              # Maria persona definition
@@ -132,12 +151,13 @@ zansei-mvp/
 │   ├── services/
 │   │   ├── openai.service.js                  # OpenAI API integration
 │   │   ├── conversation.service.js            # Conversation flow logic
+│   │   ├── knowledge.service.js               # Knowledge base loading and caching
 │   │   └── report.service.js                 # Report generation logic
 │   ├── routes/
 │   │   ├── conversation.routes.js             # Conversation API endpoints
 │   │   └── report.routes.js                  # Report API endpoints
 │   ├── utils/
-│   │   ├── promptBuilder.js                  # System prompt building
+│   │   ├── promptBuilder.js                  # System prompt building (with knowledge injection)
 │   │   ├── schemaBuilder.js                  # Dynamic JSON schema generation for AI extraction
 │   │   └── dataExtractor.js                  # Component unlock logic and quality assessment
 │   └── server.js                             # Express server setup
@@ -175,8 +195,9 @@ zansei-mvp/
   ```
 
 - `GET /api/conversation/:sessionId` - Get conversation state
-- `GET /api/conversation/:sessionId/debug` - Get debug information (extracted data, progress, unlock logic)
+- `GET /api/conversation/:sessionId/debug` - Get debug information (extracted data, progress, unlock logic, knowledge cache stats)
 - `POST /api/conversation/upgrade-component` - Start upgrade flow for a locked component
+- `POST /api/conversation/admin/knowledge/clear-cache` - Clear knowledge cache (forces reload on next request)
   ```json
   {
     "session_id": "uuid",
@@ -250,6 +271,23 @@ Edit any assistant config in `config/assistants/[funnel_id]_assistant.json`:
 Edit `config/report_generators/brand_awareness_report.json`:
 - Modify `system_prompt` for report generation style
 - Update `output_validation` requirements
+
+### Updating Knowledge Base
+
+The knowledge base is stored in markdown/JSON files in the `knowledge/` directory:
+
+- **Persona**: Edit `knowledge/zan_ng_persona.md` to change Zansei's personality
+- **SMB Insights**: Edit `knowledge/smb_insights.md` for general small business guidance
+- **Funnel Tactics**: Edit `knowledge/funnels/[funnel_id].md` for funnel-specific strategies
+- **Industry Insights**: Edit `knowledge/industries/[business_type].md` for industry-specific guidance
+- **Benchmarks**: Edit `knowledge/benchmarks.json` or run `npm run update-benchmarks`
+
+**Cache Behavior**:
+- **Development**: Cache disabled (always fresh) - set `NODE_ENV=development`
+- **Production**: 1 hour cache TTL - changes take effect after cache expiry
+- **Manual Clear**: Use debug panel "Clear Knowledge Cache" button or API endpoint
+
+**Note**: Knowledge is injected into system prompts dynamically, so edits take effect without code changes (after cache expiry or manual clear).
 
 ## Persona Testing
 
@@ -349,9 +387,11 @@ AI extracts:
 
 ## Recent Updates
 
+- ✅ **Knowledge Injection System**: Dynamic knowledge base (persona, industry insights, funnel tactics, benchmarks) injected into every conversation
+- ✅ **KnowledgeService**: Caching system for knowledge files (dev = no cache, prod = 1 hour TTL)
 - ✅ **Interactive Report Generation**: Click unlocked components to generate beautiful HTML reports
 - ✅ **Upgrade Flow**: Answer targeted questions to unlock specific report components
-- ✅ **Debug Panel**: Visualize extracted data, progress calculation, and component unlock logic
+- ✅ **Debug Panel**: Visualize extracted data, progress calculation, component unlock logic, and knowledge cache stats
 - ✅ **AI-Native Extraction**: Fully refactored to use OpenAI structured outputs (no regex)
 - ✅ **All 6 Funnels**: Complete implementation of all marketing funnels
 - ✅ **Smart 10 Questions**: Universal + funnel-specific question strategy

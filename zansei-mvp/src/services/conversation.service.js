@@ -28,7 +28,8 @@ export async function initializeConversation(bubbleAnswers, funnelId) {
   const assistantConfig = getAssistantConfig(funnelId);
 
   // Build system prompt with bubble answers (name will be added after first message is received)
-  const systemPrompt = buildSystemPrompt(bubbleAnswers, assistantConfig, null);
+  // Pass funnelId for knowledge loading
+  const systemPrompt = await buildSystemPrompt(bubbleAnswers, assistantConfig, null, funnelId);
 
   // Get assistant ID dynamically based on funnel
   const assistantId = openaiService.getAssistantId(funnelId);
@@ -127,11 +128,21 @@ export async function sendMessage(sessionId, userMessage) {
     throw new Error(`Assistant not initialized for funnel: ${session.selected_funnel.id}`);
   }
 
-  // Send message to OpenAI
+  // Rebuild system prompt with knowledge and current user name
+  // This ensures knowledge is always available and name is up-to-date
+  const systemPrompt = await buildSystemPrompt(
+    session.bubble_answers,
+    assistantConfig,
+    session.user_name || null,
+    session.selected_funnel.id
+  );
+
+  // Send message to OpenAI with knowledge-injected system prompt
   const assistantResponse = await openaiService.sendMessage(
     session.openai_thread_id,
     assistantId,
-    userMessage
+    userMessage,
+    systemPrompt
   );
 
   // Save both messages
@@ -549,7 +560,8 @@ export async function getDebugInfo(sessionId) {
       average_confidence: Object.values(collectedData)
         .filter(d => d && d.confidence !== undefined)
         .reduce((sum, d) => sum + d.confidence, 0) / Object.values(collectedData).filter(d => d && d.confidence !== undefined).length || 0
-    }
+    },
+    knowledge_cache: knowledgeCacheStats
   };
 }
 

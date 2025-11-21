@@ -799,6 +799,22 @@ function renderDebugPanel(debug) {
   const container = document.getElementById('debug-content');
   if (!container) return;
   
+  // Add knowledge cache section if available
+  let knowledgeSection = '';
+  if (debug.knowledge_cache) {
+    knowledgeSection = `
+      <div class="debug-section">
+        <h4>📚 Knowledge Cache</h4>
+        <p><strong>Cache Size:</strong> ${debug.knowledge_cache.size} entries</p>
+        <p><strong>Cache Expiry:</strong> ${debug.knowledge_cache.expiry === 0 ? 'Disabled (dev mode)' : `${debug.knowledge_cache.expiry / 1000}s`}</p>
+        <p><strong>Cached Keys:</strong> ${debug.knowledge_cache.keys.length > 0 ? debug.knowledge_cache.keys.join(', ') : 'None'}</p>
+        <button class="btn-clear-cache" onclick="clearKnowledgeCache()" style="margin-top: 10px; padding: 8px 16px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer;">
+          Clear Knowledge Cache
+        </button>
+      </div>
+    `;
+  }
+  
   let html = `
     <div class="debug-section">
       <h4>📊 Progress Summary</h4>
@@ -911,6 +927,33 @@ function renderDebugPanel(debug) {
   
   container.innerHTML = html;
 }
+
+// Clear Knowledge Cache (global for onclick handlers)
+window.clearKnowledgeCache = async function() {
+  if (!confirm('Clear knowledge cache? This will force reload of all knowledge files on next request.')) {
+    return;
+  }
+  
+  try {
+    const response = await fetch(`${API_BASE}/conversation/admin/knowledge/clear-cache`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    if (!response.ok) throw new Error('Failed to clear cache');
+    
+    const data = await response.json();
+    alert(`✅ ${data.message}\n\nCache stats: ${data.cache_stats.size} entries, ${data.cache_stats.expiry === 0 ? 'disabled' : `${data.cache_stats.expiry / 1000}s TTL`}`);
+    
+    // Refresh debug panel if open
+    if (currentSession) {
+      await updateDebugPanel();
+    }
+  } catch (error) {
+    console.error('Error clearing knowledge cache:', error);
+    alert(`Failed to clear cache: ${error.message}`);
+  }
+};
 
 // Initialize on load
 init();

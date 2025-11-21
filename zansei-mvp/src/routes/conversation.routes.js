@@ -100,5 +100,22 @@ router.post('/upgrade-component', async (req, res) => {
   }
 });
 
+// POST /api/conversation/admin/knowledge/clear-cache
+router.post('/admin/knowledge/clear-cache', async (req, res) => {
+  try {
+    const { knowledgeService } = await import('../services/knowledge.service.js');
+    knowledgeService.clearCache();
+    const stats = knowledgeService.getCacheStats();
+    res.json({ 
+      success: true, 
+      message: 'Knowledge cache cleared',
+      cache_stats: stats
+    });
+  } catch (error) {
+    console.error('Error clearing knowledge cache:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;
 

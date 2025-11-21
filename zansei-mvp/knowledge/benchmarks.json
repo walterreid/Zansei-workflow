@@ -1,0 +1,129 @@
+{
+  "last_updated": "2024-01-15T00:00:00Z",
+  "cac_by_industry": {
+    "restaurant": {
+      "average": 15,
+      "range": "10-25",
+      "notes": "Highly dependent on location and cuisine type"
+    },
+    "retail": {
+      "average": 25,
+      "range": "15-40",
+      "notes": "Physical stores typically higher than online"
+    },
+    "services": {
+      "average": 50,
+      "range": "30-100",
+      "notes": "B2B services typically higher than B2C"
+    },
+    "ecommerce": {
+      "average": 20,
+      "range": "10-35",
+      "notes": "Varies significantly by product category"
+    },
+    "other": {
+      "average": 30,
+      "range": "15-50",
+      "notes": "General small business average"
+    }
+  },
+  "channel_costs": {
+    "google_ads": {
+      "cpc_range": "1-5",
+      "average_cpc": 2.5,
+      "notes": "Local businesses typically lower, competitive keywords higher"
+    },
+    "facebook_ads": {
+      "cpc_range": "0.5-2",
+      "average_cpc": 1.2,
+      "notes": "Generally lower than Google, good for awareness"
+    },
+    "linkedin_ads": {
+      "cpc_range": "5-15",
+      "average_cpc": 8,
+      "notes": "Higher cost but better for B2B targeting"
+    },
+    "email_marketing": {
+      "cost_per_send": "0.001-0.01",
+      "average": 0.005,
+      "notes": "Very cost-effective, ROI typically 40:1"
+    },
+    "organic_social": {
+      "cost": 0,
+      "notes": "Time investment only, no ad spend"
+    }
+  },
+  "conversion_rates": {
+    "website": {
+      "average": 2.5,
+      "range": "1-5",
+      "notes": "E-commerce typically 2-3%, service businesses 1-2%"
+    },
+    "email": {
+      "average": 3.5,
+      "range": "2-6",
+      "notes": "Segmented campaigns perform better"
+    },
+    "social_media": {
+      "average": 1.5,
+      "range": "0.5-3",
+      "notes": "Instagram typically higher than Facebook for retail"
+    },
+    "google_ads": {
+      "average": 3.5,
+      "range": "2-6",
+      "notes": "Search ads typically higher than display"
+    }
+  },
+  "engagement_rates": {
+    "facebook": {
+      "average": 0.5,
+      "range": "0.2-1.5",
+      "notes": "Declining organic reach, paid reach more reliable"
+    },
+    "instagram": {
+      "average": 1.5,
+      "range": "0.5-3",
+      "notes": "Visual content performs best"
+    },
+    "linkedin": {
+      "average": 2,
+      "range": "1-4",
+      "notes": "B2B content typically higher engagement"
+    },
+    "email": {
+      "open_rate": 20,
+      "click_rate": 3,
+      "notes": "Subject lines and segmentation critical"
+    }
+  },
+  "budget_allocation_guidelines": {
+    "0-500": {
+      "organic_social": 0,
+      "email": 0,
+      "google_business": 0,
+      "paid_ads": 0,
+      "notes": "Focus on free channels: Google Business Profile, organic social, email marketing"
+    },
+    "500-2000": {
+      "organic_social": 0,
+      "email": 10,
+      "google_business": 0,
+      "paid_ads": 60,
+      "content_creation": 20,
+      "tools_software": 10,
+      "notes": "Test 1-2 paid channels, invest in content and tools"
+    },
+    "2000-5000": {
+      "organic_social": 0,
+      "email": 10,
+      "google_business": 0,
+      "paid_ads": 50,
+      "content_creation": 25,
+      "tools_software": 10,
+      "analytics_tracking": 5,
+      "notes": "Can test multiple channels, invest in analytics"
+    }
+  }
+}
+

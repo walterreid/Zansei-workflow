@@ -10,7 +10,8 @@
     "test:persona": "node test/run-persona-test.js",
     "verify": "node scripts/verify-setup.js",
     "test:openai": "node scripts/test-openai.js",
-    "update-assistants": "node scripts/update-assistants.js"
+    "update-assistants": "node scripts/update-assistants.js",
+    "update-benchmarks": "node scripts/update-benchmarks.js"
   },
   "keywords": [
     "marketing",
